@@ -8,13 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

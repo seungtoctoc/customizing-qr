@@ -9,6 +9,7 @@ import javax.management.InstanceNotFoundException;
 
 import customizingqr.server.domain.CreateUserDto;
 import customizingqr.server.domain.FindUserDto;
+import customizingqr.server.domain.ModifyUserForm;
 import customizingqr.server.service.UserService;
 import customizingqr.server.utils.ApiUtils;
 import lombok.AllArgsConstructor;
@@ -53,5 +54,20 @@ public class UserController {
     }
 
     // 수정
+    @PostMapping("/user")
+    public ApiUtils.ApiResult<Object> modifyUser(@RequestBody ModifyUserForm modifyUserForm) {
+        try {
+            FindUserDto result = userService.modifyUser(modifyUserForm);
 
+            if (result == null) {
+                return ApiUtils.error("server error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            return ApiUtils.success(result);
+        } catch (InstanceNotFoundException e) {
+            return ApiUtils.error("check uuid", HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return ApiUtils.error("check ordererId", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
