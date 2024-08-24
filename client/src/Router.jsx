@@ -5,7 +5,7 @@ import MainPage from './pages/MainPage';
 export default function Router() {
   return (
     <Routes>
-      <Route path='/' element={<MainPage />} />
+      <Route path='/:uuid' element={<MainPage />} />
     </Routes>
   );
 }
