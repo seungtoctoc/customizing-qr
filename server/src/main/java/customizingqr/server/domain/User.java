@@ -33,4 +33,8 @@ public class User {
     public CreateUserDto convertToCreateUserDto() {
         return new CreateUserDto(ordererId, uuid, message, createdAt);
     }
+
+    public FindUserDto convertToFindUserDto() {
+        return new FindUserDto(uuid, message, updatedAt);
+    }
 }

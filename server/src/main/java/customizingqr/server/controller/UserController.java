@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.InstanceNotFoundException;
+
 import customizingqr.server.domain.CreateUserDto;
 import customizingqr.server.domain.FindUserDto;
 import customizingqr.server.service.UserService;
@@ -36,9 +38,18 @@ public class UserController {
 
     // uuid로 user 조회
     @GetMapping("/user")
-    public ApiUtils.ApiResult<FindUserDto> findUser(@RequestParam("uuid") String uuid) {
+    public ApiUtils.ApiResult<Object> findUserWithUuid(@RequestParam("uuid") String uuid) {
+        try {
+            FindUserDto result = userService.findUserWithUuid(uuid);
 
-        return null;
+            if (result == null) {
+                return ApiUtils.error("server error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return ApiUtils.success(result);
+
+        } catch (InstanceNotFoundException e) {
+            return ApiUtils.error("can not find user", HttpStatus.BAD_REQUEST);
+        }
     }
 
     // 수정

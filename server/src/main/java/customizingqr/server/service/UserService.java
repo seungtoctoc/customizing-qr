@@ -1,17 +1,22 @@
 package customizingqr.server.service;
 
 import customizingqr.server.domain.CreateUserDto;
+import customizingqr.server.domain.FindUserDto;
 import customizingqr.server.domain.User;
 import customizingqr.server.repository.UserJpaRepository;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
+
+import javax.management.InstanceNotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -36,6 +41,8 @@ public class UserService {
             .ordererId("test_orderer_id")
             .uuid(UUID.randomUUID().toString())
             .message("test_message")
+            .createdAt(LocalDateTime.now())
+            .updatedAt(LocalDateTime.now())
             .build();
 
         User createdUser = userJpaRepository.save(userToCreate);
@@ -47,7 +54,20 @@ public class UserService {
         return response;
     }
 
-    // 수정
-
     // 조회
+    public FindUserDto findUserWithUuid(String uuid) throws InstanceNotFoundException {
+        Optional<User> userToFind = userJpaRepository.findByUuid(uuid);
+
+        if (userToFind == null) {
+            return null;
+        }
+
+        if (userToFind.isEmpty()) {
+            throw new InstanceNotFoundException();
+        }
+
+        return userToFind.get().convertToFindUserDto();
+    }
+
+    // 수정
 }
