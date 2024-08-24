@@ -1,25 +1,23 @@
 package customizingqr.server.service;
 
-import customizingqr.server.domain.CreateUserDto;
-import customizingqr.server.domain.FindUserDto;
-import customizingqr.server.domain.ModifyUserForm;
-import customizingqr.server.domain.User;
-import customizingqr.server.repository.UserJpaRepository;
-import lombok.AllArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.management.InstanceNotFoundException;
 
 import org.springframework.stereotype.Service;
+
+import customizingqr.server.domain.CreateUserDto;
+import customizingqr.server.domain.FindUserDto;
+import customizingqr.server.domain.ModifyUserForm;
+import customizingqr.server.domain.User;
+import customizingqr.server.repository.UserJpaRepository;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
