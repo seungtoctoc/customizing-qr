@@ -17,7 +17,7 @@ export default function MainPage() {
   return (
     <div>
       MainPage
-      <p>current uuid: {uuid}</p>
+      <p className='text-3xl font-bold'>current uuid: {uuid}</p>
       <p>message: {message}</p>
     </div>
   );
