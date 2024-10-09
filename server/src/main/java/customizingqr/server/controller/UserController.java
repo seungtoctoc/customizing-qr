@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import customizingqr.server.domain.CheckUserForm;
 import customizingqr.server.domain.FindUserDto;
-import customizingqr.server.domain.ModifyUserForm;
 import customizingqr.server.service.UserService;
 import customizingqr.server.utils.ApiUtils;
 import lombok.AllArgsConstructor;
@@ -55,21 +55,18 @@ public class UserController {
         }
     }
 
-    // 수정
-    @PostMapping("/user")
-    public ApiUtils.ApiResult<Object> modifyUser(@RequestBody ModifyUserForm modifyUserForm) {
+    @PostMapping("/user/check")
+    public ApiUtils.ApiResult<Object> checkUser(@RequestBody CheckUserForm checkUserForm) {
         try {
-            FindUserDto result = userService.modifyUser(modifyUserForm);
+            Boolean result = userService.checkUser(checkUserForm);
 
             if (result == null) {
                 return ApiUtils.error("server error", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-
             return ApiUtils.success(result);
+
         } catch (InstanceNotFoundException e) {
-            return ApiUtils.error("check uuid", HttpStatus.BAD_REQUEST);
-        } catch (IllegalArgumentException e) {
-            return ApiUtils.error("check ordererId", HttpStatus.BAD_REQUEST);
+            return ApiUtils.error("can not find user", HttpStatus.BAD_REQUEST);
         }
     }
 }

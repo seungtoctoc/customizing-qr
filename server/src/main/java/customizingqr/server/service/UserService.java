@@ -12,9 +12,9 @@ import javax.management.InstanceNotFoundException;
 
 import org.springframework.stereotype.Service;
 
+import customizingqr.server.domain.CheckUserForm;
 import customizingqr.server.domain.CreateUserDto;
 import customizingqr.server.domain.FindUserDto;
-import customizingqr.server.domain.ModifyUserForm;
 import customizingqr.server.domain.User;
 import customizingqr.server.repository.UserJpaRepository;
 import lombok.AllArgsConstructor;
@@ -57,10 +57,6 @@ public class UserService {
     public FindUserDto findUserWithUuid(String uuid) throws InstanceNotFoundException {
         Optional<User> userToFind = userJpaRepository.findByUuid(uuid);
 
-        if (userToFind == null) {
-            return null;
-        }
-
         if (userToFind.isEmpty()) {
             throw new InstanceNotFoundException();
         }
@@ -68,31 +64,18 @@ public class UserService {
         return userToFind.get().convertToFindUserDto();
     }
 
-    // 수정
-    public FindUserDto modifyUser(ModifyUserForm modifyUserForm) throws InstanceNotFoundException {
-        Optional<User> userToModify = userJpaRepository.findByUuid(modifyUserForm.getUuid());
+    // uuid, id로 조회
+    public Boolean checkUser(CheckUserForm checkUserForm) throws InstanceNotFoundException {
+        Optional<User> userToFind = userJpaRepository.findByUuid(checkUserForm.getUuid());
 
-        if (userToModify == null) {
-            return null;
-        }
-
-        if (userToModify.isEmpty()) {
+        if (userToFind.isEmpty()) {
             throw new InstanceNotFoundException();
         }
 
-        if (!userToModify.get().getOrdererId().equals(modifyUserForm.getOrdererId())) {
-            throw new IllegalArgumentException();
+        if (checkUserForm.getOrdererId().equals(userToFind.get().getOrdererId())) {
+            return true;
         }
 
-        userToModify.get().setMessage(modifyUserForm.getMessage());
-        userToModify.get().setUpdatedAt(LocalDateTime.now());
-
-        User modifiedUser = userJpaRepository.save(userToModify.get());
-
-        if (modifiedUser == null) {
-            return null;
-        }
-
-        return modifiedUser.convertToFindUserDto();
+        return false;
     }
 }

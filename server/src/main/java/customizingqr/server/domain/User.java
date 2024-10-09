@@ -1,16 +1,20 @@
 package customizingqr.server.domain;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
@@ -28,6 +32,8 @@ public class User {
     private String ordererId;
     private String uuid;
     private String message;
+    private Integer textSize;
+    private Integer textStyle;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
