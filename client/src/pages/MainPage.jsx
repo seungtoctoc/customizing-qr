@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMessage } from '../apis/apis';
 
+import Bottom from '../components/bottom';
+import MainView from '../components/MainView';
+
 export default function MainPage() {
   const { uuid } = useParams();
   const [message, setMessage] = useState('');
@@ -16,9 +19,8 @@ export default function MainPage() {
 
   return (
     <div>
-      MainPage
-      <p className='text-3xl font-bold'>current uuid: {uuid}</p>
-      <p>message: {message}</p>
+      <MainView message={message} />
+      <Bottom />
     </div>
   );
 }
